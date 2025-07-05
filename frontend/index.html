@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soluție Metacognitivă - Extragerea Informațiilor Acționabile</title>
+    <meta name="description" content="Soluție inteligentă pentru extragerea informațiilor acționabile din documente mari, optimizată pentru GPT custom">
+    <meta name="keywords" content="GPT custom, procesare documente, AI, extragere informații, chunking semantic">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>MetaCognitive AI</h1>
+                </div>
+                <nav class="nav">
+                    <button class="nav-btn active" data-section="upload">
+                        <i class="fas fa-upload"></i>
+                        Upload
+                    </button>
+                    <button class="nav-btn" data-section="demo">
+                        <i class="fas fa-play"></i>
+                        Demo
+                    </button>
+                    <button class="nav-btn" data-section="about">
+                        <i class="fas fa-info-circle"></i>
+                        Despre
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section id="upload-section" class="section active">
+                <div class="section-header">
+                    <h2>Încarcă Document pentru Procesare</h2>
+                    <p>Selectează un document pentru a extrage informații acționabile optimizate pentru GPT custom</p>
+                </div>
+
+                <div class="upload-container">
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h3>Trage și plasează fișierul aici</h3>
+                            <p>sau <span class="upload-link">selectează un fișier</span></p>
+                            <input type="file" id="file-input" accept=".pdf,.docx,.doc,.txt" hidden>
+                            <div class="supported-formats">
+                                <span>Formate suportate: PDF, DOCX, DOC, TXT</span>
+                                <span>Dimensiune maximă: 50MB</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="upload-options">
+                        <h4>Opțiuni de Procesare</h4>
+                        <div class="options-grid">
+                            <div class="option-group">
+                                <label for="chunk-size">Dimensiune Chunk (tokens)</label>
+                                <input type="range" id="chunk-size" min="500" max="2000" value="1500">
+                                <span class="range-value">1500</span>
+                            </div>
+                            <div class="option-group">
+                                <label for="similarity-threshold">Prag Similaritate</label>
+                                <input type="range" id="similarity-threshold" min="0.5" max="0.9" step="0.1" value="0.7">
+                                <span class="range-value">0.7</span>
+                            </div>
+                            <div class="option-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="extract-entities" checked>
+                                    <span class="checkmark"></span>
+                                    Extrage Entități
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-notice">
+                        <div class="notice-content">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <h4>Versiune Demo</h4>
+                                <p>Aceasta este versiunea demo a interfeței. Pentru funcționalitatea completă, instalează backend-ul local sau pe server.</p>
+                                <a href="#demo-section" class="demo-link">Vezi demonstrația →</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="upload-btn" id="upload-btn" disabled>
+                        <i class="fas fa-upload"></i>
+                        Încarcă și Procesează (Demo)
+                    </button>
+                </div>
+
+                <!-- Progress Section -->
+                <div class="progress-container" id="progress-container" style="display: none;">
+                    <div class="progress-header">
+                        <h3>Procesare în curs...</h3>
+                        <span class="progress-status" id="progress-status">Inițializare...</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-steps">
+                        <div class="step active">
+                            <i class="fas fa-file-upload"></i>
+                            <span>Upload</span>
+                        </div>
+                        <div class="step">
+                            <i class="fas fa-cogs"></i>
+                            <span>Procesare</span>
+                        </div>
+                        <div class="step">
+                            <i class="fas fa-search"></i>
+                            <span>Extragere</span>
+                        </div>
+                        <div class="step">
+                            <i class="fas fa-check"></i>
+                            <span>Finalizat</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Demo Section -->
+            <section id="demo-section" class="section">
+                <div class="section-header">
+                    <h2>Demonstrație Interactivă</h2>
+                    <p>Explorează capabilitățile soluției cu exemple pre-procesate</p>
+                </div>
+
+                <div class="demo-container">
+                    <div class="demo-examples">
+                        <div class="example-card" data-example="technical">
+                            <div class="example-header">
+                                <i class="fas fa-cogs"></i>
+                                <h3>Manual Tehnic</h3>
+                            </div>
+                            <div class="example-stats">
+                                <div class="stat">
+                                    <span class="stat-label">Original:</span>
+                                    <span class="stat-value">300 pagini</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Optimizat:</span>
+                                    <span class="stat-value">127 chunk-uri</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Reducere:</span>
+                                    <span class="stat-value">85%</span>
+                                </div>
+                            </div>
+                            <button class="example-btn">Vezi Rezultate</button>
+                        </div>
+
+                        <div class="example-card" data-example="business">
+                            <div class="example-header">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>Rapoarte Business</h3>
+                            </div>
+                            <div class="example-stats">
+                                <div class="stat">
+                                    <span class="stat-label">Original:</span>
+                                    <span class="stat-value">450 pagini</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Optimizat:</span>
+                                    <span class="stat-value">89 chunk-uri</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Reducere:</span>
+                                    <span class="stat-value">82%</span>
+                                </div>
+                            </div>
+                            <button class="example-btn">Vezi Rezultate</button>
+                        </div>
+
+                        <div class="example-card" data-example="academic">
+                            <div class="example-header">
+                                <i class="fas fa-graduation-cap"></i>
+                                <h3>Articole Academice</h3>
+                            </div>
+                            <div class="example-stats">
+                                <div class="stat">
+                                    <span class="stat-label">Original:</span>
+                                    <span class="stat-value">180 pagini</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Optimizat:</span>
+                                    <span class="stat-value">67 chunk-uri</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Reducere:</span>
+                                    <span class="stat-value">78%</span>
+                                </div>
+                            </div>
+                            <button class="example-btn">Vezi Rezultate</button>
+                        </div>
+                    </div>
+
+                    <div class="demo-results" id="demo-results" style="display: none;">
+                        <div class="results-header">
+                            <h3 id="results-title">Rezultate Procesare</h3>
+                            <button class="close-results" id="close-results">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="results-content" id="results-content">
+                            <!-- Results will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about-section" class="section">
+                <div class="section-header">
+                    <h2>Despre Soluția Metacognitivă</h2>
+                    <p>Transformă documentele voluminoase în conținut optimizat pentru GPT custom</p>
+                </div>
+
+                <div class="about-container">
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>Chunking Semantic</h3>
+                            <p>Segmentare inteligentă bazată pe sens și context, nu pe dimensiune arbitrară</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h3>Scorarea Acționalității</h3>
+                            <p>Algoritm proprietar pentru identificarea informațiilor cu valoare practică ridicată</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <h3>Extragerea Entităților</h3>
+                            <p>Identificarea automată a persoanelor, organizațiilor, datelor și informațiilor cheie</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-compress-alt"></i>
+                            </div>
+                            <h3>Reducere Dramatică</h3>
+                            <p>Reducerea dimensiunii cu 75-85% păstrând 90-95% din informațiile esențiale</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <h3>Export Optimizat</h3>
+                            <p>Multiple formate de export pentru integrarea directă cu GPT custom</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>API RESTful</h3>
+                            <p>Integrare facilă cu sisteme externe prin API-uri complete și documentate</p>
+                        </div>
+                    </div>
+
+                    <div class="installation-section">
+                        <h3>Instalare și Utilizare</h3>
+                        <div class="installation-steps">
+                            <div class="step-card">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Clonează Repository-ul</h4>
+                                    <code>git clone https://github.com/username/metacognitive-solution</code>
+                                </div>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Instalează Dependențele</h4>
+                                    <code>pip install -r requirements.txt</code>
+                                </div>
+                            </div>
+                            <div class="step-card">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Pornește Aplicația</h4>
+                                    <code>python src/main.py</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="github-section">
+                        <h3>Cod Sursă și Documentație</h3>
+                        <p>Soluția este open-source și disponibilă pe GitHub cu documentație completă și exemple de utilizare.</p>
+                        <div class="github-buttons">
+                            <a href="https://github.com/username/metacognitive-solution" class="github-btn" target="_blank">
+                                <i class="fab fa-github"></i>
+                                Vezi pe GitHub
+                            </a>
+                            <a href="https://github.com/username/metacognitive-solution/blob/main/README.md" class="github-btn secondary" target="_blank">
+                                <i class="fas fa-book"></i>
+                                Documentație
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Soluție Metacognitivă</h4>
+                    <p>Optimizarea inteligentă a documentelor pentru GPT custom</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resurse</h4>
+                    <ul>
+                        <li><a href="#about-section">Despre</a></li>
+                        <li><a href="#demo-section">Demo</a></li>
+                        <li><a href="https://github.com/username/metacognitive-solution" target="_blank">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:support@manus.ai">support@manus.ai</a></li>
+                        <li><a href="https://github.com/username/metacognitive-solution/issues" target="_blank">Raportează Bug</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Manus AI. Dezvoltat cu ❤️ pentru comunitatea AI.</p>
+            </div>
+        </footer>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
